@@ -37,4 +37,22 @@ public class Conection {
         }
     }
 
+    public static int getTableCount(String tableName) {
+        String sql = "SELECT COUNT(*) as total FROM " + tableName;
+        int count = 0;
+
+        try(Connection conn = connect();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql)){
+            if (rs.next()) {
+                count = rs.getInt("total");
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return count;
+
+    }
+
 }

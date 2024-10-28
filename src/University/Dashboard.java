@@ -2,40 +2,40 @@ package University;
 
 import Database.Conection;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.Objects;
 
 public class Dashboard extends Application {
-    public static void main(String[] args){
+
+    public static void main(String[] args) {
         Conection.connect();
-        Conection.printAllProfessors();
         launch(args);
     }
 
     @Override
-    public void start(Stage primaryStage){
-        primaryStage.setTitle("Dashboard");
-        Button btn = new Button();
-        btn.setText("Professors");
-        btn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event){
-                System.out.println("Hello");
-            }
-        });
+    public void start(Stage primaryStage) {
+        BorderPane root = new BorderPane();
+        Font.loadFont(getClass().getResourceAsStream("/Assets/Poppins/Poppins-Regular.ttf"), 16); // Adjust the size as needed
 
-        StackPane root = new StackPane();
-        root.getChildren().add(btn);
-        primaryStage.setScene(new Scene(root, 300, 250));
+
+        // Instantiate and add components
+        NavBar navBar = new NavBar();
+        MainContent mainContent = new MainContent();
+
+        root.setTop(navBar.getNavBar());         // Add navigation bar to top
+        root.setCenter(mainContent.getContent()); // Set main content in center
+
+        // Set up the scene with CSS
+        Scene scene = new Scene(root, 1080, 600);
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("styles.css")).toExternalForm());
+
+        // Configure and show stage
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("Nom nom");
         primaryStage.show();
-
     }
 }
